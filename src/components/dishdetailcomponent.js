@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from "reactstrap";
+import React from "react";
+import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem, CardBody, CardText } from "reactstrap";
+import { Link } from 'react-router-dom';
 
     function RenderDish({dish}) {
         if (dish != null) {
@@ -31,6 +32,7 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from "re
                 <li key={comment.id}>
                     <p>{comment.comment}</p>
                     <p>-- {comment.author},
+                    &nbsp;
                     {new Intl.DateTimeFormat('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -53,21 +55,40 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from "re
 
 
     const DishDetail = (props) => {
+
         const dish = props.dish
         
+    
         if (dish == null) {
             return (<div></div>);
         }
 
         return (
-        <div className="container">
-            <div className='row'>
-                <RenderDish dish={props.dish} />
-                <RenderComments comments={props.dish.comments} />
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem>
+                            <Link to="/menu">Menu</Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem active>
+                            { props.dish.name }
+                        </BreadcrumbItem>
+                    </Breadcrumb>
+
+                    <div className="col-12">
+                        <h3> {props.dish.menu}</h3>
+                        <hr />
+                    </div>
+                </div>
+
+                <div className='row'>
+                    <RenderDish dish={ props.dish } />
+                    <RenderComments comments={ props.comments } />
+                </div>
             </div>
-        </div>
         )
     }
+
 
 
 export default DishDetail;
